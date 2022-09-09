@@ -43,15 +43,16 @@ final albumsRepositoryProvider = Provider<AlbumsRepository>((ref) {
 
 // Note: pull to refresh will cause this issue with autoDispose & keepAlive
 // https://github.com/rrousselGit/riverpod/issues/1302
-final albumsProvider = FutureProvider<List<Album>>((ref) async {
-  // An object from package:dio that allows cancelling http requests
-  final cancelToken = CancelToken();
-  // When the provider is destroyed, cancel the http request
-  ref.onDispose(() => cancelToken.cancel());
-  // Fetch our data and pass our `cancelToken` for cancellation to work
-  final response =
-      ref.watch(albumsRepositoryProvider).fetchAlbums(cancelToken: cancelToken);
-  // If the request completed successfully, keep the state
-  //ref.keepAlive();
-  return response;
-});
+final albumsProvider = FutureProvider.autoDispose<List<Album>>(
+  (ref) async {
+    // An object from package:dio that allows cancelling http requests
+    final cancelToken = CancelToken();
+    // When the provider is destroyed, cancel the http request
+    ref.onDispose(() => cancelToken.cancel());
+    // Fetch our data and pass our `cancelToken` for cancellation to work
+    return ref
+        .watch(albumsRepositoryProvider)
+        .fetchAlbums(cancelToken: cancelToken);
+  },
+  cacheTime: const Duration(seconds: 30),
+);
