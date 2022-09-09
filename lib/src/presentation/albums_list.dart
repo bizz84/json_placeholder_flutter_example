@@ -30,17 +30,20 @@ class AlbumsList extends ConsumerWidget {
     return albumsAsync.when(
       error: (e, st) => Center(child: Text(e.toString())),
       loading: () => const Center(child: CircularProgressIndicator()),
-      data: (albums) => GridView.builder(
-        itemCount: albums.length,
-        itemBuilder: (context, index) => AlbumCover(
-          album: albums[index],
-          size: imageSize,
-        ),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: imageSize,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 0.5,
+      data: (albums) => RefreshIndicator(
+        onRefresh: () => ref.refresh(albumsProvider.future),
+        child: GridView.builder(
+          itemCount: albums.length,
+          itemBuilder: (context, index) => AlbumCover(
+            album: albums[index],
+            size: imageSize,
+          ),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: imageSize,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 0.5,
+          ),
         ),
       ),
     );

@@ -39,7 +39,19 @@ final photosRepositoryProvider = Provider<PhotosRepository>((ref) {
   );
 });
 
+// Documentation about keepAlive and CancelToken:
+// https://riverpod.dev/docs/concepts/modifiers/auto_dispose/#example-canceling-http-requests-when-no-longer-used
 final firstPhotoProvider =
     FutureProvider.autoDispose.family<Photo, int>((ref, albumId) async {
-  return ref.watch(photosRepositoryProvider).fetchFirstPhoto(albumId);
+  // An object from package:dio that allows cancelling http requests
+  final cancelToken = CancelToken();
+  // When the provider is destroyed, cancel the http request
+  ref.onDispose(() => cancelToken.cancel());
+  // Fetch our data and pass our `cancelToken` for cancellation to work
+  final response = ref
+      .watch(photosRepositoryProvider)
+      .fetchFirstPhoto(albumId, cancelToken: cancelToken);
+  // If the request completed successfully, keep the state
+  ref.keepAlive();
+  return response;
 });
