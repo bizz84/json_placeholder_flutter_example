@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_placeholder_flutter_example/src/data/albums_repository.dart';
 import 'package:json_placeholder_flutter_example/src/data/photos_repository.dart';
 import 'package:json_placeholder_flutter_example/src/domain/album.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class AlbumsListScreen extends StatelessWidget {
   const AlbumsListScreen({super.key});
@@ -62,27 +62,40 @@ class AlbumCover extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         photoAsync.when(
-          error: (e, st) => Center(child: Text(e.toString())),
-          loading: () => SizedBox(
-            width: size,
-            height: size,
-            child: const Center(child: CircularProgressIndicator()),
-          ),
-          data: (photo) => CachedNetworkImage(
-            width: size,
-            height: size,
-            imageUrl: photo.thumbnailUrl,
-            placeholder: (_, __) =>
-                const Center(child: CircularProgressIndicator()),
-            errorWidget: (_, __, error) => Center(
-              child: Text(
-                error.toString(),
-                style: const TextStyle(color: Colors.red),
-              ),
+            error: (e, st) => Center(child: Text(e.toString())),
+            loading: () => SizedBox(
+                  width: size,
+                  height: size,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+            data: (photo) => OptimizedCacheImage(
+                  imageUrl: photo.thumbnailUrl,
+                  width: size,
+                  height: size,
+                  placeholder: (_, __) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (_, __, error) => Center(
+                    child: Text(
+                      error.toString(),
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                )
+            // https://github.com/Baseflow/flutter_cached_network_image/issues/336
+            // CachedNetworkImage(
+            //   width: size,
+            //   height: size,
+            //   imageUrl: photo.thumbnailUrl,
+            //   placeholder: (_, __) =>
+            //       const Center(child: CircularProgressIndicator()),
+            //   errorWidget: (_, __, error) => Center(
+            //     child: Text(
+            //       error.toString(),
+            //       style: const TextStyle(color: Colors.red),
+            //     ),
+            //   ),
+            // ),
             ),
-          ),
-        ),
-        //const SizedBox(height: 8),
         Text(
           album.title,
           style: Theme.of(context).textTheme.caption,
