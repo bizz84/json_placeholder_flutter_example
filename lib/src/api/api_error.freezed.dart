@@ -25,9 +25,9 @@ mixin _$APIError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? noInternetConnection,
-    TResult Function()? notFound,
-    TResult Function()? unknown,
+    TResult? Function()? noInternetConnection,
+    TResult? Function()? notFound,
+    TResult? Function()? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,9 +47,9 @@ mixin _$APIError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_NoInternetConnection value)? noInternetConnection,
-    TResult Function(_NotFound value)? notFound,
-    TResult Function(_Unknown value)? unknown,
+    TResult? Function(_NoInternetConnection value)? noInternetConnection,
+    TResult? Function(_NotFound value)? notFound,
+    TResult? Function(_Unknown value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,16 +65,18 @@ mixin _$APIError {
 /// @nodoc
 abstract class $APIErrorCopyWith<$Res> {
   factory $APIErrorCopyWith(APIError value, $Res Function(APIError) then) =
-      _$APIErrorCopyWithImpl<$Res>;
+      _$APIErrorCopyWithImpl<$Res, APIError>;
 }
 
 /// @nodoc
-class _$APIErrorCopyWithImpl<$Res> implements $APIErrorCopyWith<$Res> {
+class _$APIErrorCopyWithImpl<$Res, $Val extends APIError>
+    implements $APIErrorCopyWith<$Res> {
   _$APIErrorCopyWithImpl(this._value, this._then);
 
-  final APIError _value;
   // ignore: unused_field
-  final $Res Function(APIError) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -86,14 +88,11 @@ abstract class _$$_NoInternetConnectionCopyWith<$Res> {
 
 /// @nodoc
 class __$$_NoInternetConnectionCopyWithImpl<$Res>
-    extends _$APIErrorCopyWithImpl<$Res>
+    extends _$APIErrorCopyWithImpl<$Res, _$_NoInternetConnection>
     implements _$$_NoInternetConnectionCopyWith<$Res> {
   __$$_NoInternetConnectionCopyWithImpl(_$_NoInternetConnection _value,
       $Res Function(_$_NoInternetConnection) _then)
-      : super(_value, (v) => _then(v as _$_NoInternetConnection));
-
-  @override
-  _$_NoInternetConnection get _value => super._value as _$_NoInternetConnection;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -128,9 +127,9 @@ class _$_NoInternetConnection implements _NoInternetConnection {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? noInternetConnection,
-    TResult Function()? notFound,
-    TResult Function()? unknown,
+    TResult? Function()? noInternetConnection,
+    TResult? Function()? notFound,
+    TResult? Function()? unknown,
   }) {
     return noInternetConnection?.call();
   }
@@ -162,9 +161,9 @@ class _$_NoInternetConnection implements _NoInternetConnection {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_NoInternetConnection value)? noInternetConnection,
-    TResult Function(_NotFound value)? notFound,
-    TResult Function(_Unknown value)? unknown,
+    TResult? Function(_NoInternetConnection value)? noInternetConnection,
+    TResult? Function(_NotFound value)? notFound,
+    TResult? Function(_Unknown value)? unknown,
   }) {
     return noInternetConnection?.call(this);
   }
@@ -196,14 +195,12 @@ abstract class _$$_NotFoundCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NotFoundCopyWithImpl<$Res> extends _$APIErrorCopyWithImpl<$Res>
+class __$$_NotFoundCopyWithImpl<$Res>
+    extends _$APIErrorCopyWithImpl<$Res, _$_NotFound>
     implements _$$_NotFoundCopyWith<$Res> {
   __$$_NotFoundCopyWithImpl(
       _$_NotFound _value, $Res Function(_$_NotFound) _then)
-      : super(_value, (v) => _then(v as _$_NotFound));
-
-  @override
-  _$_NotFound get _value => super._value as _$_NotFound;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -238,9 +235,9 @@ class _$_NotFound implements _NotFound {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? noInternetConnection,
-    TResult Function()? notFound,
-    TResult Function()? unknown,
+    TResult? Function()? noInternetConnection,
+    TResult? Function()? notFound,
+    TResult? Function()? unknown,
   }) {
     return notFound?.call();
   }
@@ -272,9 +269,9 @@ class _$_NotFound implements _NotFound {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_NoInternetConnection value)? noInternetConnection,
-    TResult Function(_NotFound value)? notFound,
-    TResult Function(_Unknown value)? unknown,
+    TResult? Function(_NoInternetConnection value)? noInternetConnection,
+    TResult? Function(_NotFound value)? notFound,
+    TResult? Function(_Unknown value)? unknown,
   }) {
     return notFound?.call(this);
   }
@@ -306,13 +303,11 @@ abstract class _$$_UnknownCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UnknownCopyWithImpl<$Res> extends _$APIErrorCopyWithImpl<$Res>
+class __$$_UnknownCopyWithImpl<$Res>
+    extends _$APIErrorCopyWithImpl<$Res, _$_Unknown>
     implements _$$_UnknownCopyWith<$Res> {
   __$$_UnknownCopyWithImpl(_$_Unknown _value, $Res Function(_$_Unknown) _then)
-      : super(_value, (v) => _then(v as _$_Unknown));
-
-  @override
-  _$_Unknown get _value => super._value as _$_Unknown;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -347,9 +342,9 @@ class _$_Unknown implements _Unknown {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? noInternetConnection,
-    TResult Function()? notFound,
-    TResult Function()? unknown,
+    TResult? Function()? noInternetConnection,
+    TResult? Function()? notFound,
+    TResult? Function()? unknown,
   }) {
     return unknown?.call();
   }
@@ -381,9 +376,9 @@ class _$_Unknown implements _Unknown {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_NoInternetConnection value)? noInternetConnection,
-    TResult Function(_NotFound value)? notFound,
-    TResult Function(_Unknown value)? unknown,
+    TResult? Function(_NoInternetConnection value)? noInternetConnection,
+    TResult? Function(_NotFound value)? notFound,
+    TResult? Function(_Unknown value)? unknown,
   }) {
     return unknown?.call(this);
   }

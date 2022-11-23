@@ -1,0 +1,41 @@
+
+GET https://jsonplaceholder.typicode.com/posts
+
+###
+
+GET https://jsonplaceholder.typicode.com/posts/1
+
+###
+
+PUT https://jsonplaceholder.typicode.com/posts/1
+content-type: application/json
+
+{
+  "userId": 1,
+  "id": 1,
+  "title": "foo",
+  "body": "bar"
+}
+###
+
+GET https://jsonplaceholder.typicode.com/todos
+
+###
+
+GET https://jsonplaceholder.typicode.com/todos/1
+
+###
+
+GET https://jsonplaceholder.typicode.com/users
+
+###
+
+GET https://jsonplaceholder.typicode.com/users/1
+
+###
+
+GET https://jsonplaceholder.typicode.com/comments
+
+###
+
+GET https://jsonplaceholder.typicode.com/comments/1

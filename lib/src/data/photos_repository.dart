@@ -53,5 +53,4 @@ final firstPhotoProvider = FutureProvider.autoDispose.family<Photo, int>(
         .fetchFirstPhoto(albumId, cancelToken: cancelToken);
   },
   // cache the response for some time
-  cacheTime: const Duration(seconds: 30),
 );

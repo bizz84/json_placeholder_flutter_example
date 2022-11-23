@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:json_placeholder_flutter_example/src/presentation/albums_list.dart';
+import 'package:json_placeholder_flutter_example/src/presentation/posts_list.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: const AlbumsListScreen(),
+      home: const PostsListScreen(),
     );
   }
 }
