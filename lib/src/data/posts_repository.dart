@@ -13,63 +13,48 @@ class PostsRepository {
   PostsRepository({required this.dio});
   final Dio dio;
 
-  Future<List<Post>> fetchPosts({CancelToken? cancelToken}) async {
-    try {
-      // add artificial delay to test loading UI
-      //await Future.delayed(const Duration(seconds: 1));
-      final response = await dio.get(
-        'https://jsonplaceholder.typicode.com/posts',
-        cancelToken: cancelToken,
-      );
-      switch (response.statusCode) {
-        case 200:
+  Future<List<Post>> fetchPosts({CancelToken? cancelToken}) => _run<List<Post>>(
+        request: () => dio.get(
+          'https://jsonplaceholder.typicode.com/posts',
+          cancelToken: cancelToken,
+        ),
+        parse: (data) {
           // get the list of results
-          final posts = response.data as List<dynamic>;
+          final posts = data as List<dynamic>;
           // map them to a List<Album>
           return posts.map((post) => Post.fromJson(post)).toList();
-        case 404:
-          throw const APIError.notFound();
-        default:
-          throw const APIError.unknown();
-      }
-    } on SocketException catch (_) {
-      throw const APIError.noInternetConnection();
-    }
-  }
+        },
+      );
 
-  Future<Post> fetchPost(int postId, {CancelToken? cancelToken}) async {
-    print('dio: fetchPost($postId)');
+  Future<Post> fetchPost(int postId, {CancelToken? cancelToken}) => _run<Post>(
+        request: () => dio.get(
+          'https://jsonplaceholder.typicode.com/posts/$postId',
+          cancelToken: cancelToken,
+        ),
+        parse: (data) => Post.fromJson(data),
+      );
+
+  // Note: this method submits the data, but the backend won't actually update it
+  Future<void> updatePost(Post post, {CancelToken? cancelToken}) => _run<void>(
+        request: () => dio.put(
+          'https://jsonplaceholder.typicode.com/posts/${post.id}',
+          data: post.toJson(),
+          cancelToken: cancelToken,
+        ),
+        parse: (data) {},
+      );
+
+  Future<T> _run<T>({
+    required Future<Response> Function() request,
+    required T Function(dynamic) parse,
+  }) async {
     try {
       // add artificial delay to test loading UI
       //await Future.delayed(const Duration(seconds: 1));
-      final response = await dio.get(
-        'https://jsonplaceholder.typicode.com/posts/$postId',
-        cancelToken: cancelToken,
-      );
+      final response = await request();
       switch (response.statusCode) {
         case 200:
-          return Post.fromJson(response.data);
-        case 404:
-          throw const APIError.notFound();
-        default:
-          throw const APIError.unknown();
-      }
-    } on SocketException catch (_) {
-      throw const APIError.noInternetConnection();
-    }
-  }
-
-  // Note: this method submits the data, but the backend won't actually update it
-  Future<void> updatePost(Post post, {CancelToken? cancelToken}) async {
-    try {
-      final response = await dio.put(
-        'https://jsonplaceholder.typicode.com/posts/${post.id}',
-        data: post.toJson(),
-        cancelToken: cancelToken,
-      );
-      switch (response.statusCode) {
-        case 200:
-          return;
+          return parse(response.data);
         case 404:
           throw const APIError.notFound();
         default:
@@ -86,12 +71,6 @@ PostsRepository postsRepository(PostsRepositoryRef ref) {
   return PostsRepository(dio: ref.watch(dioProvider));
 }
 
-// final postsRepositoryProvider = Provider<PostsRepository>((ref) {
-//   return PostsRepository(
-//     dio: ref.watch(dioProvider),
-//   );
-// });
-
 @riverpod
 Future<List<Post>> fetchPosts(FetchPostsRef ref) {
   // An object from package:dio that allows cancelling http requests
@@ -104,25 +83,12 @@ Future<List<Post>> fetchPosts(FetchPostsRef ref) {
       .fetchPosts(cancelToken: cancelToken);
 }
 
-// final fetchPostsProvider = FutureProvider.autoDispose<List<Post>>((ref) {
-//   // An object from package:dio that allows cancelling http requests
-//   final cancelToken = CancelToken();
-//   // When the provider is destroyed, cancel the http request
-//   ref.onDispose(() => cancelToken.cancel());
-//   // Fetch our data and pass our `cancelToken` for cancellation to work
-//   return ref
-//       .watch(postsRepositoryProvider)
-//       .fetchPosts(cancelToken: cancelToken);
-// });
-
-@Riverpod(keepAlive: false)
+@riverpod
 Future<Post> fetchPost(FetchPostRef ref, int postId) {
-  print('init: fetchPost($postId)');
-  ref.onCancel(() => print('cancel: fetchPost($postId)'));
-  ref.onResume(() => print('resume: fetchPost($postId)'));
-  ref.onDispose(() => print('dispose: fetchPost($postId)'));
-  // ref.onAddListener(() => print('addListener: fetchPost($postId)'));
-  // ref.onRemoveListener(() => print('removeListener: fetchPost($postId)'));
+  // print('init: fetchPost($postId)');
+  // ref.onCancel(() => print('cancel: fetchPost($postId)'));
+  // ref.onResume(() => print('resume: fetchPost($postId)'));
+  // ref.onDispose(() => print('dispose: fetchPost($postId)'));
   // get the [KeepAliveLink]
   final link = ref.keepAlive();
   // a timer to be used by the callbacks below
@@ -146,21 +112,8 @@ Future<Post> fetchPost(FetchPostRef ref, int postId) {
   ref.onResume(() {
     timer?.cancel();
   });
-
   // Fetch our data and pass our `cancelToken` for cancellation to work
   return ref
       .watch(postsRepositoryProvider)
       .fetchPost(postId, cancelToken: cancelToken);
 }
-
-// final fetchPostProvider =
-//     FutureProvider.autoDispose.family<Post, int>((ref, postId) {
-//   // An object from package:dio that allows cancelling http requests
-//   final cancelToken = CancelToken();
-//   // When the provider is destroyed, cancel the http request
-//   ref.onDispose(() => cancelToken.cancel());
-//   // Fetch our data and pass our `cancelToken` for cancellation to work
-//   return ref
-//       .watch(postsRepositoryProvider)
-//       .fetchPost(postId, cancelToken: cancelToken);
-// });
