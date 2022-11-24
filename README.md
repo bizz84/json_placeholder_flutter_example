@@ -1,16 +1,11 @@
-# json_placeholder_flutter_example
+# JSONPlaceholder CRUD example with Riverpod
 
-A new Flutter project.
+A simple project showing how to use Riverpod to fetch and cache data from the [jsonplaceholder](https://jsonplaceholder.typicode.com/) API.
 
-## Getting Started
+<img src="https://github.com/bizz84/json_placeholder_flutter_example/blob/main/.github/images/app-screens.png?raw=true" alt="ListView and post details screen">
 
-This project is a starting point for a Flutter application.
+This project is based on this article:
 
-A few resources to get you started if this is your first Flutter project:
+- [Flutter Riverpod: Providers Lifecycle and Data Caching Explained](https://codewithandrea.com/articles/flutter-riverpod-providers-lifecycle/)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### [LICENSE: MIT](LICENSE.md)
