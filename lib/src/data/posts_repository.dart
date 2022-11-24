@@ -44,6 +44,7 @@ class PostsRepository {
         parse: (data) {},
       );
 
+  // Generic method to make a request and parse the response data
   Future<T> _run<T>({
     required Future<Response> Function() request,
     required T Function(dynamic) parse,
